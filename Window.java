@@ -2,6 +2,7 @@ package main;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -24,7 +25,7 @@ public class Window extends JPanel implements Runnable, KeyListener{
 		WIDTH = w;
 		HEIGHT = h;
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-		 p = new Player(10,10,40,40, new File("C:\\Users\\zohai\\new_workspace\\Schwartz\\src\\main\\basketball.png"));
+		 p = new Player(0,0,10,10, new File("src/basketball.png"));
 		this.setBackground(Color.BLACK);
 		start();
 	}
@@ -56,12 +57,21 @@ public class Window extends JPanel implements Runnable, KeyListener{
 	
 	
 	public void update() {
-		
-		
 	}
 	
 	
 	public void start() {
+		BufferedImage title;
+		try {
+			title = ImageIO.read(new File("src/titlebig.png"));
+			JLabel titleLabel = new JLabel(new ImageIcon(title));
+			add(titleLabel);
+			titleLabel.addKeyListener(this);
+			//titleLabel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("title image not found");
+		}
 		Thread n = new Thread(this);
 		running = true;
 		n.start();
@@ -79,6 +89,7 @@ public class Window extends JPanel implements Runnable, KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
+		removeAll();
 		int code = arg0.getKeyCode();
 		switch(code) {
 			case KeyEvent.VK_UP:

@@ -20,8 +20,5 @@ public class Game extends JFrame{
 		frame.setVisible(true);
 		frame.setResizable(false);
 		frame.pack();
-		
-		
 	}
-
 }
