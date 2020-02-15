@@ -18,6 +18,7 @@ public class Game extends JFrame{
 		frame.setSize(800, 1200);
 		frame.setTitle("Schwartz");
 		frame.setVisible(true);
+		frame.pack();
 		frame.setResizable(false);
 		frame.pack();
 	}
