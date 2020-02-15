@@ -2,6 +2,9 @@ package main;
 
 import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Floor {
 
@@ -16,6 +19,11 @@ public class Floor {
 			y = yval;
 			length = lenval;
 			width = widval;
+			try {
+				img = ImageIO.read(file);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		public double getLength() {
@@ -37,5 +45,9 @@ public class Floor {
 		
 		public Image getImage() {
 			return img;
+		}
+		
+		public void resizeImage(int w, int h) {
+			img = img.getScaledInstance(w, h, img.SCALE_DEFAULT);
 		}
 }

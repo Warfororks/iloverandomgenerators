@@ -14,7 +14,7 @@ public class Player {
 	private double width;
 	private boolean isJumping = false;
 	private int lives = 3;
-	private BufferedImage img;
+	private Image img;
 	
 	
 	public Player(double xval, double yval, double lenval, double widval, File file) {
@@ -72,5 +72,8 @@ public class Player {
 	}
 	public void setY(double yeet) {
 		y = yeet;
+	}
+	public void resizeImage(int w, int h) {
+		img = img.getScaledInstance(w, h, img.SCALE_DEFAULT);
 	}
 }

@@ -8,9 +8,11 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+
+
 public class Window extends JPanel implements Runnable, KeyListener{
 	
 	private static int WIDTH;
@@ -18,17 +20,21 @@ public class Window extends JPanel implements Runnable, KeyListener{
 	private static boolean running = false;
 	private static int fps = 60;
 	private static int maintime = 1000/ fps;
+	private Floor floor;
 	private Player p;
 	private BufferedImage end;
 	private Enemy b1;
-
 	
 	public Window(int h, int w) {
 		WIDTH = w;
 		HEIGHT = h;
-		//this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-		p = new Player(600,300,40,40, new File("src/basketball.png"));
+		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		p = new Player(600,300,40,40, new File("src/lebron-player-right.png"));
+		floor = new Floor(1, h-80, 800,w, new File("src/floor.png"));
+
 		this.setBackground(Color.BLACK);
+		floor.resizeImage(w+10, 100);
+		p.resizeImage(80, 80);
 		start();
 	}
 
@@ -66,7 +72,7 @@ public class Window extends JPanel implements Runnable, KeyListener{
 	public void start() {
 		BufferedImage title;
 		try {
-			title = ImageIO.read(new File("src/titlebig.png"));
+			title = ImageIO.read(new File("src/menu.png"));
 			JLabel titleLabel = new JLabel(new ImageIcon(title));
 			add(titleLabel);
 			titleLabel.addKeyListener(this);
@@ -85,8 +91,10 @@ public class Window extends JPanel implements Runnable, KeyListener{
 		super.paintComponent(g);
 		//render using Graphics context here.
 		//need to draw image and stuff.
-		if(p != null)
+		if(p != null) {
 			g.drawImage(p.getImage(), (int)p.getX(), (int)p.getY(), this);
+		}
+			g.drawImage(floor.getImage(), (int)floor.getX(), (int)floor.getY(), this);
 		if(end != null)
 			g.drawImage(end, 0, 0, this);
 	}
