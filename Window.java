@@ -24,12 +24,21 @@ public class Window extends JPanel implements Runnable, KeyListener{
 	private Player p;
 	private BufferedImage end;
 	private Enemy b1;
+	private File leftbron;
+	private File rightbron;
+	private boolean isJumping = false;
+	private boolean isFalling = false;
+	private int height;
+	
 	
 	public Window(int h, int w) {
 		WIDTH = w;
 		HEIGHT = h;
-		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-		p = new Player(600,300,40,40, new File("src/lebron-player-right.png"));
+		leftbron = new File("src/lebron-player-left.png");
+		rightbron = new File("src/lebron-player-right.png");
+		
+;		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		p = new Player(600,300,40,40, rightbron);
 		floor = new Floor(1, h-80, 800,w, new File("src/floor.png"));
 
 		this.setBackground(Color.BLACK);
@@ -40,11 +49,15 @@ public class Window extends JPanel implements Runnable, KeyListener{
 
 	@Override
 	public void run() {
+		
+		
 		while(running) {
 			long startT = System.nanoTime();
 			//update();
 			//render();
-			update();
+			//System.out.println(isJumping);
+//			
+			updateJump();
 			repaint();
 			long endT = System.nanoTime() - startT;
 			long wait = maintime - endT / 1000000;
@@ -64,8 +77,24 @@ public class Window extends JPanel implements Runnable, KeyListener{
 	}
 	
 	
-	public void update() {
-		
+	public void updateJump() {
+		if(isJumping && height > 0) {
+			p.setY(p.getY() - 10);
+			height--;
+		}
+		else if(isJumping && height == 0) {
+			isJumping = false;
+			isFalling = true;
+		}
+		else if(isFalling && height < 31) {
+			p.setY(p.getY() + 10);
+			height++;
+		}
+		else if(isFalling && height == 31) {
+			isFalling = false;
+			height = 0;
+		}
+	
 	}
 	
 	
@@ -105,21 +134,26 @@ public class Window extends JPanel implements Runnable, KeyListener{
 		int code = arg0.getKeyCode();
 		switch(code) {
 			case KeyEvent.VK_UP:
-				if(!isCollisionWithWall(p))
+				if(!isCollisionWithWall(p)) {
 					p.setY(p.getY() - 10);
-			
+					jump();
+				}
 				//move up
 				//System.out.println("move up");
 				break;
 			case KeyEvent.VK_LEFT:
 				if(!isCollisionWithWall(p))
 					p.setX(p.getX() - 10);
+					p.setImage(leftbron);
+					
 				//move left
 				//System.out.println("move left");
 				break;
 			case KeyEvent.VK_RIGHT:
 				if(!isCollisionWithWall(p))
 				p.setX(p.getX() + 10);
+				p.setImage(rightbron);
+		
 				//move right
 				//System.out.println("move right");
 				break;
@@ -166,6 +200,28 @@ public class Window extends JPanel implements Runnable, KeyListener{
 	public void keyTyped(KeyEvent e) {
 		
 		
+	}
+	
+	public void jump() {
+		if(!notOkToJump()) {
+			isJumping = true;
+			height = 30;
+		}
+	}
+	
+	public boolean iscollisionWith() {
+		boolean cantMove = false;
+		
+		return cantMove;
+	}
+	
+	public boolean notOkToJump() {
+		boolean cantMove = false;
+//			for(int i=0; i < list.size(); i++) {
+//				if(p.getY() - 20 < list.get(i).getY())
+//					cantMove = true;
+//			}
+		return cantMove;
 	}
 	
 	public void endScreen() {
