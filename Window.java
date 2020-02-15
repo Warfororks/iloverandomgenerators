@@ -1,4 +1,5 @@
 package main;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -16,12 +17,15 @@ public class Window extends JPanel implements Runnable, KeyListener{
 	private static boolean running = false;
 	private static int fps = 60;
 	private static int maintime = 1000/ fps;
-	
+	private Player p;
+
 	
 	public Window(int h, int w) {
 		WIDTH = w;
 		HEIGHT = h;
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		 p = new Player(0,0,10,10, new File("C:\\Users\\zohai\\new_workspace\\Schwartz\\src\\main\\basketball.png"));
+		this.setBackground(Color.BLACK);
 		start();
 	}
 
@@ -64,9 +68,11 @@ public class Window extends JPanel implements Runnable, KeyListener{
 	
 	@Override
 	public void paintComponent(Graphics g) { 
+		super.paintComponent(g);
 		//render using Graphics context here.
 		//need to draw image and stuff.
-		super.paintComponent(g);
+		if(p != null)
+			g.drawImage(p.getImage(), 0, 0, this);
 	}
 
 	@Override
