@@ -2,6 +2,9 @@ package main;
 
 import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Enemy {
 	private double x;
@@ -15,6 +18,11 @@ public class Enemy {
 		y = yval;
 		length = lenval;
 		width = widval;
+		try {
+			img = ImageIO.read(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public double getLength() {
@@ -36,5 +44,8 @@ public class Enemy {
 	
 	public Image getImage() {
 		return img;
+	}
+	public void setX(double yeet) {
+		x = yeet;
 	}
 }
