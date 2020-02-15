@@ -19,13 +19,15 @@ public class Window extends JPanel implements Runnable, KeyListener{
 	private static int fps = 60;
 	private static int maintime = 1000/ fps;
 	private Player p;
+	private BufferedImage end;
+	private Enemy b1;
 
 	
 	public Window(int h, int w) {
 		WIDTH = w;
 		HEIGHT = h;
-		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-		 p = new Player(0,0,10,10, new File("src/basketball.png"));
+		//this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		p = new Player(600,300,40,40, new File("src/basketball.png"));
 		this.setBackground(Color.BLACK);
 		start();
 	}
@@ -57,6 +59,7 @@ public class Window extends JPanel implements Runnable, KeyListener{
 	
 	
 	public void update() {
+		
 	}
 	
 	
@@ -67,7 +70,6 @@ public class Window extends JPanel implements Runnable, KeyListener{
 			JLabel titleLabel = new JLabel(new ImageIcon(title));
 			add(titleLabel);
 			titleLabel.addKeyListener(this);
-			//titleLabel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("title image not found");
@@ -85,6 +87,8 @@ public class Window extends JPanel implements Runnable, KeyListener{
 		//need to draw image and stuff.
 		if(p != null)
 			g.drawImage(p.getImage(), (int)p.getX(), (int)p.getY(), this);
+		if(end != null)
+			g.drawImage(end, 0, 0, this);
 	}
 
 	@Override
@@ -119,27 +123,28 @@ public class Window extends JPanel implements Runnable, KeyListener{
 	}
 
 	public boolean isCollisionWithWall(Player p) {
-			boolean cantMove = false;
-			if(p.getX() == 0) {
-				cantMove = true;
-				p.setX(p.getX() + 10);
-			}
-			else if((p.getX() + p.getWidth()) == this.getParent().getWidth()) {
-				cantMove = true;
-				p.setX(p.getX() - 10);
-				//System.out.println(this.getWidth());
-			}
-			else if(p.getY() == 0) {
-				cantMove = true;
-				p.setY(p.getY() + 10);
-			}
-			else if((p.getY() + p.getLength()) == this.getParent().getHeight()) {
-				cantMove = true;
-				p.setY(p.getY() - 10);
-				System.out.println(this.getParent().getHeight());
-			}
-				
-			return cantMove;
+		boolean cantMove = false;
+		if(p.getX() == 100) {
+			cantMove = true;
+			endScreen();
+			p.setX(p.getX() + 10);
+		}
+		else if((p.getX() + p.getWidth()) >= this.getParent().getWidth()-20) {
+			cantMove = true;
+			p.setX(p.getX() - 20);
+			//System.out.println(this.getWidth());
+		}
+		else if(p.getY() == 0) {
+			cantMove = true;
+			p.setY(p.getY() + 10);
+		}
+		else if((p.getY() + p.getLength()) >= this.getParent().getHeight()-20) {
+			cantMove = true;
+			p.setY(p.getY() - 20);
+			//System.out.println(this.getParent().getHeight());
+		}
+			
+		return cantMove;
 	}
 	
 	
@@ -153,5 +158,16 @@ public class Window extends JPanel implements Runnable, KeyListener{
 	public void keyTyped(KeyEvent e) {
 		
 		
+	}
+	
+	public void endScreen() {
+		try {
+			end = ImageIO.read(new File("src/gameover.png"));
+			running = false;
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("end image not found");
+		}
 	}
 }
