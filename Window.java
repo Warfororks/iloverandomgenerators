@@ -1,9 +1,11 @@
 package main;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.*;
-public class Window extends JPanel implements Runnable{
+public class Window extends JPanel implements Runnable, KeyListener{
 	
 	private static int WIDTH;
 	private static int HEIGHT;
@@ -16,6 +18,7 @@ public class Window extends JPanel implements Runnable{
 		WIDTH = w;
 		HEIGHT = h;
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		this.addKeyListener(this);
 		start();
 	}
 
@@ -56,16 +59,30 @@ public class Window extends JPanel implements Runnable{
 		running = true;
 		n.start();
 	}
-	
-	
-	public void keyListener() { //set key listening for the game
-		
-	}
+
 	
 	@Override
 	public void paintComponent(Graphics g) { 
 		//render using Graphics context here.
 		//need to draw image and stuff.
 		super.paintComponent(g);
+	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		
+		
 	}
 }
