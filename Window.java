@@ -4,8 +4,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 public class Window extends JPanel implements Runnable, KeyListener{
 	
@@ -15,6 +18,7 @@ public class Window extends JPanel implements Runnable, KeyListener{
 	private static int fps = 60;
 	private static int maintime = 1000/ fps;
 	private Player p;
+
 	
 	public Window(int h, int w) {
 		WIDTH = w;
@@ -23,7 +27,6 @@ public class Window extends JPanel implements Runnable, KeyListener{
 		 p = new Player(0,0,10,10, new File("C:\\Users\\zohai\\new_workspace\\Schwartz\\src\\main\\basketball.png"));
 		this.setBackground(Color.BLACK);
 		start();
-		
 	}
 
 	@Override
@@ -32,7 +35,6 @@ public class Window extends JPanel implements Runnable, KeyListener{
 			long startT = System.nanoTime();
 			//update();
 			//render();
-			
 			update();
 			repaint();
 			long endT = System.nanoTime() - startT;
@@ -49,15 +51,11 @@ public class Window extends JPanel implements Runnable, KeyListener{
 			catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		
-			
 		}
 	}
 	
 	
 	public void update() {
-		
-		
 	}
 	
 	
@@ -78,9 +76,22 @@ public class Window extends JPanel implements Runnable, KeyListener{
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
-		
-		//System.out.println("any key pressed");
+	public void keyPressed(KeyEvent arg0) {
+		int code = arg0.getKeyCode();
+		switch(code) {
+			case KeyEvent.VK_UP:
+				//move up
+				System.out.println("move up");
+				break;
+			case KeyEvent.VK_LEFT:
+				//move left
+				System.out.println("move left");
+				break;
+			case KeyEvent.VK_RIGHT:
+				//move right
+				System.out.println("move right");
+				break;
+		}
 	}
 
 	@Override
