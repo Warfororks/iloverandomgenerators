@@ -12,13 +12,15 @@ public class Game extends JFrame{
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
-		Window w = new Window(400, 400);
+		Window w = new Window(800, 1200);
 		frame.addKeyListener(w);
 		frame.add(w, BorderLayout.CENTER);
-		frame.setSize(400, 400);
+		frame.setSize(800, 1200);
 		frame.setTitle("Schwartz");
 		frame.setVisible(true);
-		//frame.pack();
+		frame.setResizable(false);
+		frame.pack();
+		
 		
 	}
 
