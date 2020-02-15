@@ -11,6 +11,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import javafx.application.Application;
+import javafx.embed.swing.JFXPanel;
+
 
 
 public class Window extends JPanel implements Runnable, KeyListener{
@@ -18,7 +21,7 @@ public class Window extends JPanel implements Runnable, KeyListener{
 	private static int WIDTH;
 	private static int HEIGHT;
 	private static boolean running = false;
-	private static int fps = 60;
+	private static int fps = 30;
 	private static int maintime = 1000/ fps;
 	private Floor floor;
 	private Player p;
@@ -26,17 +29,23 @@ public class Window extends JPanel implements Runnable, KeyListener{
 	private File leftbron;
 	private File rightbron;
 	private boolean isJumping = false;
+	private boolean num = false;
 	private boolean isFalling = false;
 	private int height;
 	private Enemy[] blocks;
-	
+	Image schultz;
 	public Window(int h, int w) {
 		blocks = new Enemy[20];
 		WIDTH = w;
 		HEIGHT = h;
 		leftbron = new File("src/lebron-player-left.png");
 		rightbron = new File("src/lebron-player-right.png");
-		
+		try {
+			schultz = ImageIO.read(new File("src/schwartz_meme.png"));
+			schultz = schultz.getScaledInstance(200, 200, schultz.SCALE_DEFAULT);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		p = new Player(600,h-160,40,40, rightbron);
 		floor = new Floor(1, h-80, 800,w, new File("src/floor.png"));
@@ -62,9 +71,17 @@ public class Window extends JPanel implements Runnable, KeyListener{
 			//update();
 			//render();
 			//System.out.println(isJumping);
-//			
-			updateJump();
 			repaint();
+			updateJump();
+			update();
+			repaint();
+			if(num == true) {
+				for(int i = 0; i < 20; i++) {
+					if(blocks[i] != null) blocks[i].setX(blocks[i].getX()-10);
+				}
+			}
+			
+			
 			long endT = System.nanoTime() - startT;
 			long wait = maintime - endT / 1000000;
 			
@@ -99,9 +116,9 @@ public class Window extends JPanel implements Runnable, KeyListener{
 			isFalling = false;
 			height = 0;
 		}
-	
+	}
 	public void update() {
-		if(p.getX() > blocks[19].getX()+blocks[19].getWidth()) {
+		if(p.getX()> blocks[19].getX()+blocks[19].getWidth() + 200) {
 			System.out.println("you win");
 			try {
 				end = ImageIO.read(new File("src/youwin.png"));
@@ -118,7 +135,7 @@ public class Window extends JPanel implements Runnable, KeyListener{
 	public void start() {
 		BufferedImage title;
 		try {
-			title = ImageIO.read(new File("src/titlebig.png"));
+			title = ImageIO.read(new File("src/escape_schwartz.png"));
 			JLabel titleLabel = new JLabel(new ImageIcon(title));
 			add(titleLabel);
 			titleLabel.addKeyListener(this);
@@ -137,6 +154,7 @@ public class Window extends JPanel implements Runnable, KeyListener{
 		super.paintComponent(g);
 		//render using Graphics context here.
 		//need to draw image and stuff.
+		g.drawImage(schultz, getWidth()/2, getHeight()/2, this);
 		if(p != null) {
 			g.drawImage(p.getImage(), (int)p.getX(), (int)p.getY(), this);
 		}
@@ -148,20 +166,20 @@ public class Window extends JPanel implements Runnable, KeyListener{
 		}
 		if(end != null)
 			g.drawImage(end, 0, 0, this);
+			
 	}
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		removeAll();
-		for(int i = 0; i < 20; i++) {
-			if(blocks[i] != null) blocks[i].setX(blocks[i].getX()-10);
-		}
+		if(num == false)
+			num = true;
 		int code = arg0.getKeyCode();
 		switch(code) {
 			case KeyEvent.VK_UP:
 				if(!isCollisionWithWall(p)) {
 					p.setY(p.getY() - 10);
-					jump();
+						jump();
 				}
 				//move up
 				//System.out.println("move up");
@@ -184,7 +202,7 @@ public class Window extends JPanel implements Runnable, KeyListener{
 				break;
 			case KeyEvent.VK_DOWN:
 				if(!isCollisionWithWall(p))
-				p.setY(p.getY() + 10);
+					p.setY(p.getY() + 10);
 				break;
 		}
 	}
