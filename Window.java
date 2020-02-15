@@ -3,7 +3,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 public class Window extends JPanel implements Runnable, KeyListener{
 	
@@ -18,7 +22,6 @@ public class Window extends JPanel implements Runnable, KeyListener{
 		WIDTH = w;
 		HEIGHT = h;
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-		this.addKeyListener(this);
 		start();
 	}
 
@@ -44,8 +47,6 @@ public class Window extends JPanel implements Runnable, KeyListener{
 			catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		
-			
 		}
 	}
 	
@@ -70,8 +71,21 @@ public class Window extends JPanel implements Runnable, KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		
-		
+		int code = arg0.getKeyCode();
+		switch(code) {
+			case KeyEvent.VK_UP:
+				//move up
+				System.out.println("move up");
+				break;
+			case KeyEvent.VK_LEFT:
+				//move left
+				System.out.println("move left");
+				break;
+			case KeyEvent.VK_RIGHT:
+				//move right
+				System.out.println("move right");
+				break;
+		}
 	}
 
 	@Override
