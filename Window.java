@@ -20,7 +20,6 @@ public class Window extends JPanel implements Runnable, KeyListener{
 		WIDTH = w;
 		HEIGHT = h;
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-		this.addKeyListener(this);
 		 p = new Player(0,0,10,10, new File("C:\\Users\\zohai\\new_workspace\\Schwartz\\src\\main\\basketball.png"));
 		this.setBackground(Color.BLACK);
 		start();
@@ -29,11 +28,11 @@ public class Window extends JPanel implements Runnable, KeyListener{
 
 	@Override
 	public void run() {
-		
 		while(running) {
 			long startT = System.nanoTime();
 			//update();
 			//render();
+			
 			update();
 			repaint();
 			long endT = System.nanoTime() - startT;
@@ -81,7 +80,7 @@ public class Window extends JPanel implements Runnable, KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
-		
+		//System.out.println("any key pressed");
 	}
 
 	@Override
