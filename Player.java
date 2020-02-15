@@ -12,7 +12,6 @@ public class Player {
 	private double y;
 	private double length;
 	private double width;
-	private boolean isJumping = false;
 	private int lives = 3;
 	private Image img;
 	
@@ -32,11 +31,6 @@ public class Player {
 		
 	}
 	
-	public void jump() {
-		if(!isJumping) {
-			
-		}
-	}
 	
 	public void moveRight() {
 		//will have to check for isJumping.
@@ -76,4 +70,15 @@ public class Player {
 	public void resizeImage(int w, int h) {
 		img = img.getScaledInstance(w, h, img.SCALE_DEFAULT);
 	}
+	
+	public void setImage(File file) {
+		try {
+			img = ImageIO.read(file);
+			img = img.getScaledInstance(80, 80, img.SCALE_DEFAULT);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+
 }
