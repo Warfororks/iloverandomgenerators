@@ -66,4 +66,11 @@ public class Player {
 	public Image getImage() {
 		return img;
 	}
+	
+	public void setX(double yeet) {
+		x = yeet;
+	}
+	public void setY(double yeet) {
+		y = yeet;
+	}
 }

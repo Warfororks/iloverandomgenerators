@@ -57,7 +57,6 @@ public class Window extends JPanel implements Runnable, KeyListener{
 	
 	
 	public void update() {
-		
 	}
 	
 	
@@ -85,7 +84,7 @@ public class Window extends JPanel implements Runnable, KeyListener{
 		//render using Graphics context here.
 		//need to draw image and stuff.
 		if(p != null)
-			g.drawImage(p.getImage(), 0, 0, this);
+			g.drawImage(p.getImage(), (int)p.getX(), (int)p.getY(), this);
 	}
 
 	@Override
@@ -94,20 +93,56 @@ public class Window extends JPanel implements Runnable, KeyListener{
 		int code = arg0.getKeyCode();
 		switch(code) {
 			case KeyEvent.VK_UP:
+				if(!isCollisionWithWall(p))
+					p.setY(p.getY() - 10);
+			
 				//move up
-				System.out.println("move up");
+				//System.out.println("move up");
 				break;
 			case KeyEvent.VK_LEFT:
+				if(!isCollisionWithWall(p))
+					p.setX(p.getX() - 10);
 				//move left
-				System.out.println("move left");
+				//System.out.println("move left");
 				break;
 			case KeyEvent.VK_RIGHT:
+				if(!isCollisionWithWall(p))
+				p.setX(p.getX() + 10);
 				//move right
-				System.out.println("move right");
+				//System.out.println("move right");
+				break;
+			case KeyEvent.VK_DOWN:
+				if(!isCollisionWithWall(p))
+				p.setY(p.getY() + 10);
 				break;
 		}
 	}
 
+	public boolean isCollisionWithWall(Player p) {
+			boolean cantMove = false;
+			if(p.getX() == 0) {
+				cantMove = true;
+				p.setX(p.getX() + 10);
+			}
+			else if((p.getX() + p.getWidth()) == this.getParent().getWidth()) {
+				cantMove = true;
+				p.setX(p.getX() - 10);
+				//System.out.println(this.getWidth());
+			}
+			else if(p.getY() == 0) {
+				cantMove = true;
+				p.setY(p.getY() + 10);
+			}
+			else if((p.getY() + p.getLength()) == this.getParent().getHeight()) {
+				cantMove = true;
+				p.setY(p.getY() - 10);
+				System.out.println(this.getParent().getHeight());
+			}
+				
+			return cantMove;
+	}
+	
+	
 	@Override
 	public void keyReleased(KeyEvent e) {
 		
